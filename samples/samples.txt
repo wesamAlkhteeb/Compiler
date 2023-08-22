@@ -1,0 +1,115 @@
+StartApp (
+    Screens :[
+        Login(
+            body:Body(
+                view:[
+                    Form(
+            	        action:"",
+            		    view:[
+            			    Image(source:"123.jpg" ,width:100,height:100),
+                		    NewLine(),
+                        	NewLine(),
+                			Text(title:"username"),
+            	    	    InputText(id:"username"),
+                        	NewLine(),
+            			    NewLine(),
+            		        Text(title: "password"),
+                        	InputPassword(id:"password"),
+                			NewLine(),
+                		    NewLine(),
+                        	Submit(title:"login")
+            		    ]
+                	),
+                	HyperLink(title: "register" , page:Register())
+                ]
+            ),
+            controller: Controller(
+		        header:(){
+                    usernameH = readFromFile(path: "account.txt");
+                    password = readFromFile(path: "account.txt");
+                },
+		        body:(){
+			        if(form.username == header.usernameH && form.password== header.password){
+		        	    MoveScreen(page:Home());
+			        }
+		        }
+        	)
+        ),
+        Register(
+            body:Body(
+                view:[
+                    Form(
+                        action:"",
+                        view:[
+                            Image(source:"123.jpg" ,width:100,height:100),
+                            NewLine(),
+                        	NewLine(),
+                        	Text(title:"username"),
+                        	InputText(id:"username"),
+                            NewLine(),
+                            NewLine(),
+                        	Text(title: "password"),
+                        	InputPassword(id:"password"),
+                        	NewLine(),
+                        	NewLine(),
+                            Text(title: "confirm password"),
+                        	InputPassword(id:"confirmPassword"),
+                        	NewLine(),
+                        	NewLine(),
+                        	Submit(title:"register")
+                        ]
+                    )
+                ]
+            ),
+            controller:Controller(
+                body:(){
+                    if(form.password == form.confirmPassword ){
+                        writeToFile(path:"account.txt" , data : ["form.username","form.password"]);
+                    	MoveScreen(page:Login());
+                    }
+                }
+            )
+        ),
+        Profile(
+            body:Body(
+                view:[
+                    HeaderText(typeFont:6 ,title:"Profile Page"),
+                    Text(title:"username"),
+                    TextOut(title: header.username),
+                    Text(title:"password"),
+                    TextOut(title:header.password),
+                    NewLine(),
+                    HyperLink(title: "go to home" , page:Home())
+                ]
+            ),
+            controller:Controller(
+                header:(){
+                    username = readFromFile(path: "account.txt");
+                    password = readFromFile(path: "account.txt");
+                }
+            )
+        ),
+        Home(
+            body:Body(
+                view:[
+                    HeaderText(typeFont:1 ,title:"Home Page"),
+                    Form(
+                        action:"",
+                        view:[
+                            Image(source:"123.jpg" ,width:100,height:100)
+                        ]
+                    ),
+                    Text(title:"lila wa alziab .. full story "),
+                    HyperLink(title: "Profile" , page:Profile()),
+                    Form(
+                        action:"Login",
+                        view:[
+                            NewLine(),
+                            Submit(title:"login")
+                        ]
+                    )
+                ]
+            )
+        )
+    ]
+)

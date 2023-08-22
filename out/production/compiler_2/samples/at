@@ -1,0 +1,109 @@
+
+StartApp (
+    Screens :[
+        login(
+            body:[
+                Form(
+        	        action:"",
+        		    view:[
+        			    Image(source:"...." ,width:12,height:44),
+            		    newLine(),
+                    	newLine(),
+            			Text(title:"username"),
+        	    	    InputText(id:"username"),
+                    	newLine(),
+        			    newLine(),
+        		        Text(title: "passwrod"),
+                    	InputText(id:"passwrod"),
+            			newLine(),
+            		    newLine(),
+                    	Submit()
+        		    ]
+            	)
+            ],
+            controller: Controller(
+		        header:(){
+    		        username = readFromFile(path: "account.txt");
+	    		    password = readFromFile(path: "account.txt");
+		        },
+		        body:(){
+			        if(form.username == header.username && form.password== header.password){
+		        	    moveScreen(page:Home());
+			        }
+		        }
+        	)
+        ),
+        Register(
+            body:[
+                Form(
+            	    action:"",
+            	    view:[
+                	    Image(source:"...." ,width:12,height:44),
+                	    newLine(),
+            			newLine(),
+            			Text(title:"username"),
+            		    InputText(id:"username"),
+                	    newLine(),
+                    	newLine(),
+            		    Text(title: "passwrod"),
+            			InputText(id:"passwrod"),
+            		    newLine(),
+            	    	newLine(),
+                    	Text(title: "confirm password"),
+            	    	InputText(id:"confirmPasswrod"),
+            		    newLine(),
+            		    newLine(),
+            	    	Submit()
+                    ]
+            	)
+            ],
+            controller:Controller(
+                body:(){
+                    if(form.password == form.confirmPassword && isNotEmpty(title : form.password) ){
+            		    writeToFile(path:"account.txt" , data : ["...","...","...."]);
+            		    moveScreen(page:Login());
+                	}
+                }
+            )
+        ),
+
+        profile(
+            body:[
+                HeaderText(typeFont:1 ,title:"Profile Page"),
+            	Text(title:"username"),
+            	TextOut(title: header.username),
+            	Text(title:"password"),
+            	TextOut(title:header.password),
+            	newLine(),
+            	Hyperlink(title: "go to home" , screen:Home())
+            ],
+            controller:Controller(
+                header:(){
+                    username = readFromFile(path: "account.txt");
+                	password = readFromFile(path: "account.txt");
+                }
+            )
+        ),
+
+        Home(
+            body:[
+                HeaderText(typeFont:1 ,title:"Home Page"),
+                Form(
+                    action:"",
+                    view:[
+                        Image(source:"...." ,width:12,height:44)
+                    ]
+                ),
+                Text(title:"lila wa alziab .. full story "),
+                Hyperlink(title: "Profile" , page:Profile()),
+                Form(
+                    action:"profile",
+                    view:[
+                        newLine(),
+                        Submit()
+                    ]
+                )
+            ]
+        )
+    ]
+)
